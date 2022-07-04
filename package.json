@@ -1,0 +1,16 @@
+{
+  "name": "drive-api-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cli_google_drive_uploader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "googleapis": "^104.0.0",
+    "node-url-shortener": "^2.0.3"
+  }
+}
