@@ -63,7 +63,7 @@ let count =
                         console.log(`Есть ${arUnique.length} уникальных юзеров`)
                     }
                     else if(k===20){
-                        console.log(`Есть ${arUnique.length} уникальных юзеров, что встречались в ${i}`)
+                        console.log(`Есть ${arUnique.length} уникальных юзеров, что встречались во всех ${i} 20 файлах`)
                     }
                     else{
                         console.log(`Есть ${arUnique.length} уникальных юзеров, что встречались в ${i} или более файлах`)
