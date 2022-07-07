@@ -76,7 +76,7 @@ async function readAll(addresses) {
             amountFalse += 1
         }
         a++
-        if (a===20){
+        if (a===addresses.length){
             console.log(`True amount = ${amountTrue}\nFalse amount = ${amountFalse}`)
         }
     })
