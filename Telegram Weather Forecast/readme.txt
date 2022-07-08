@@ -1,0 +1,1 @@
+https://t.me/prognoz_pogody_lambda_bot
