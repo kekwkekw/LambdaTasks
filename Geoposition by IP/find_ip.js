@@ -27,12 +27,7 @@ let findIp =
             });
         })
 
-async function lulw(ipString) {
-    let result = await findIp(ipString)
-    console.log(result)
-}
 
 module.exports = {
     findIp: findIp,
-    lulw: lulw
 }
