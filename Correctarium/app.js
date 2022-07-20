@@ -7,6 +7,7 @@ const port = 3000;
 
 app.post('/', async (req, res) => {
     let data = req.body
+    console.log(data)
     let result = await c.calc(data.count, data.language, data.mimetype)
     console.log(data, "\n=>\n", result)
     res.json(result);
