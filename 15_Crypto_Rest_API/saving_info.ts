@@ -57,7 +57,7 @@ async function dummy_ping(){
     console.log(`Erzhan vstavai`)
 }
 
-cron.schedule('0 */20 * * * *', function() {
+cron.schedule('0 */10 * * * *', function() {
     dummy_ping()
 });
 
