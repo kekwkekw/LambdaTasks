@@ -63,3 +63,7 @@ async function lulw() {
 }
 
 lulw()
+
+// module.exports = {
+//     get_info: get_info
+// }

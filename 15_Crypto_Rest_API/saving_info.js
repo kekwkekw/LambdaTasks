@@ -52,7 +52,7 @@ async function dummy_ping() {
     });
     console.log(`Erzhan vstavai`);
 }
-cron.schedule('*/30 * * * * *', function () {
+cron.schedule('* */2 * * * *', function () {
     dummy_ping();
 });
 cron.schedule('0 */5 * * * *', function () {
