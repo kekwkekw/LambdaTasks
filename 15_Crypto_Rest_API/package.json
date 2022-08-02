@@ -1,0 +1,29 @@
+{
+  "name": "15.-crypto-rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "buildDB": "node database_creation.js",
+    "startApp": "node app.js",
+    "startSaving": "node saving_info.js",
+    "start": "npm run buildDB && npm run startApp",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "node-cron": "^3.0.1",
+    "serve": "^14.0.1",
+    "typescript": "^4.7.4",
+    "uuid": "^8.3.2"
+  },
+  "engines": {
+    "node": "17.0",
+    "npm": "8.1"
+  }
+}

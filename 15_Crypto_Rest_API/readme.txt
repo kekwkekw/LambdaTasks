@@ -1,0 +1,14 @@
+All info is obtained with GET http://localhost:3000/get request, with the next parameters:
+
+symbol: - required
+    symbol of cryptocurrency you wish to obtain info for.
+market: - optional
+    one of 5 markets you are specifically interested in.
+    Format: just the name of the market, for example, "coinpaprika".
+    If there are none, calculate the average price among all 5.
+startDate and endDate: -optional
+    period, in which you wish to know the prices of coins.
+    Format: string 'YYYY-MM-DD HH:MM:SS' in the UTC-0, for example '2022-07-30 16:45:00'
+    If there are none, returns the most 'fresh' result
+
+Example: http://localhost:3000/get?symbol=BTC&startDate=2022-07-30 16:45:00&endDate=2022-08-30 16:45:00

@@ -1,1 +1,0 @@
-worker: node Telegram_bot_weather_forecast.js

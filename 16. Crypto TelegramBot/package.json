@@ -1,0 +1,17 @@
+{
+  "name": "16.-crypto-telegrambot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "mysql2": "^2.3.3",
+    "node-telegram-bot-api": "^0.58.0"
+  }
+}
