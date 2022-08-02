@@ -44,7 +44,7 @@ const get_info =
                 marketQuery = 'SELECT * FROM price'
             }
             if (startDate && endDate) {
-                dateQuery = `SELECT * FROM ${marketQuery} AS T WHERE (updated_at BETWEEN '${startDate}' AND '${endDate}')`
+                dateQuery = `SELECT * FROM (${marketQuery}) AS T WHERE (updated_at BETWEEN '${startDate}' AND '${endDate}')`
             } else {
                 //select only freshly updated info
                 dateQuery = `SELECT * FROM (${marketQuery}) AS T GROUP BY updated_at ORDER BY updated_at DESC LIMIT 1`
