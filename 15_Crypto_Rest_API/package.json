@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "buildDB": "node database_creation.js",
+    "buildDB": "node table_creation.js",
     "startApp": "node app.js",
     "startSaving": "node saving_info.js",
     "start": "npm run buildDB && npm run startApp",
