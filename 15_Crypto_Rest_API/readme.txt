@@ -11,4 +11,4 @@ startDate and endDate: -optional
     Format: string 'YYYY-MM-DD HH:MM:SS' in the UTC-0, for example '2022-07-30 16:45:00'
     If there are none, returns the most 'fresh' result
 
-Example: https://crypto-api-lambda.herokuapp.com/get?symbol=BTC&startDate=2022-07-30 16:35:00&endDate=2022-08-30 16:45:00
+Example: https://crypto-api-lambda.herokuapp.com/get?symbol=BTC&startDate=2022-07-30%2016:35:00&endDate=2022-08-30%2016:45:00
