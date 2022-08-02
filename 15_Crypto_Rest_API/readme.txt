@@ -1,4 +1,4 @@
-All info is obtained with GET http://localhost:3000/get request, with the next parameters:
+All info is obtained with GET https://crypto-api-lambda.herokuapp.com/get request, with the next parameters:
 
 symbol: - required
     symbol of cryptocurrency you wish to obtain info for.
