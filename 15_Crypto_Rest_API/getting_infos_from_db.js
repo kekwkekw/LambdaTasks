@@ -29,6 +29,7 @@ function handleDisconnect() {
 }
 handleDisconnect();
 const get_info = ({ symbol: coinSymbol, market: market, startDate: startDate, endDate: endDate }) => new Promise(async (resolve, reject) => {
+    handleDisconnect();
     let marketQuery;
     let dateQuery;
     let query;

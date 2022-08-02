@@ -31,6 +31,7 @@ function handleDisconnect() {
     });
 }
 async function save_to_db() {
+    handleDisconnect();
     let start = new Date().getTime();
     let all_infos = await gi.extract_all();
     let sql = 'INSERT INTO price (name, symbol, price, api_used, updated_at) VALUES ?';
