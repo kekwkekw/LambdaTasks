@@ -1,3 +1,2 @@
 web: npm run start
 worker2: npm run startSaving
-ping: npm run dummyPing
