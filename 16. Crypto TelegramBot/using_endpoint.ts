@@ -32,7 +32,9 @@ function extract_needed_by_minsAgo(data: cryptoInfo[], minsAgo: number): { minsA
         currentMinusMinsAgo.setSeconds(new Date().getSeconds() - 30)
         let currentMinusMinsAgoAnd5mins = new Date(currentMinusMinsAgo)
         currentMinusMinsAgoAnd5mins.setMinutes(currentMinusMinsAgoAnd5mins.getMinutes() - 5)
+        console.log(currentMinusMinsAgo, currentMinusMinsAgoAnd5mins)
         if (updated_at > currentMinusMinsAgoAnd5mins && updated_at < currentMinusMinsAgo) {
+            console.log(updated_at)
             return {minsAgo: minsAgo, price: el.price};
         }
     }
@@ -48,7 +50,7 @@ async function get_info(symbol: string, minsAgoArray: number[] = [0, 30, 60, 60 
     let last24HourPrices = await axios({
         method: 'get',
         url: '/get',
-        baseURL: 'http://localhost:3000',
+        baseURL: 'https://crypto-api-lambda.herokuapp.com',
         params: {symbol: symbol, startDate: dayAgoFormatted, endDate: currentFormatted}
     })
     let price_history = minsAgoArray.map(minsAgo => extract_needed_by_minsAgo(last24HourPrices.data, minsAgo))
