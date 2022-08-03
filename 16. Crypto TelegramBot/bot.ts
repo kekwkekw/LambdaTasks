@@ -9,7 +9,7 @@ const token = '5443913471:AAFPvYdrMFn5VZcmI9bFi4VlWQmgVINrDHA';
 const bot = new TelegramBot(token, {polling: true});
 
 const HYPE = ["BTC", "ETH", "XRP", "XLM", "ADA", "DOGE", "DOT", "NEO", "CEL",
-    "NANO", "USDT", "DASH", "TRON", "ZEC", "NEM", "BNB", "BSV", "EOS", "VET", "DAI"]
+    "XNO", "USDT", "DASH", "TRX", "ZEC", "XEM", "BNB", "BSV", "EOS", "VET", "DAI"]
 
 bot.onText(/\/start/, function (msg, match) {
     const chatId = msg.chat.id
@@ -30,13 +30,12 @@ bot.onText(/\/help/, function (msg, match) {
 
 bot.onText(/\/listRecent/, async function (msg, match) {
     const chatId = msg.chat.id
-    let prices = {}
-    for (const el of HYPE) {
-        let price = await get_current_price(el)
-        console.log(price)
-        prices[el] = price
-    }
-    await Promise.all(Object.values(prices))
+    let prices = []
+    HYPE.forEach(el=> {
+        let price = get_current_price(el)
+        prices.push(price)
+    })
+    await Promise.all(prices)
     console.log(prices)
     let needed_info = await HYPE.map(el=>`/${el} ${get_current_price(el)}`)
     console.log(needed_info)

@@ -7,7 +7,8 @@ const db_config = {
     host: 'us-cdbr-east-06.cleardb.net',
     user: 'bd5e6b22462a14',
     password: '2a6ef195',
-    database: 'heroku_9310974291683b6'
+    database: 'heroku_9310974291683b6',
+    ssl: true
 }
 
 function sleep(ms) {
