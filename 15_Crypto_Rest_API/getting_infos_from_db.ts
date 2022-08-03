@@ -57,19 +57,18 @@ const get_info =
                     query = `SELECT name, symbol, updated_at, AVG(price) AS price FROM (${dateQuery}) AS T WHERE symbol = '${coinSymbol}' GROUP BY name, symbol, updated_at ORDER BY updated_at DESC LIMIT 1`
                 }
                 db.query(query, function (err, result, fields) {
-                    console.log(query)
                     if (err) throw err;
                     resolve(result)
                 });
             }
         })
 
-async function lulw() {
-    let result = await get_info({symbol: 'USDT'})
-    console.log(result)
-}
-
-lulw()
+// async function lulw() {
+//     let result = await get_info({symbol: 'USDT'})
+//     console.log(result)
+// }
+//
+// lulw()
 
 module.exports = {
     get_info: get_info,
