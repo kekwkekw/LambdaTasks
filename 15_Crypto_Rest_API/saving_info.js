@@ -59,8 +59,7 @@ function dummy_ping() {
     let dummy_ping = axios({
         method: 'get',
         url: '/get',
-        // baseURL: 'https://crypto-api-lambda.herokuapp.com',
-        baseURL: 'http://localhost:3000',
+        baseURL: 'https://crypto-api-lambda.herokuapp.com',
         params: { symbol: 'kekWkekW' }
     });
     console.log(`Erzhan vstavai`);
