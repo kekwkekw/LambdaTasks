@@ -2,9 +2,9 @@ process.env.NTBA_FIX_319 = 1;
 process.env.NTBA_FIX_350 = 1;
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios').default;
-const mysql = require('mysql2');
 const get_info = require('./using_endpoint').get_info;
 const get_current_price = require('./using_endpoint').get_current_price;
+const f = require('./favourites');
 const token = '5443913471:AAFPvYdrMFn5VZcmI9bFi4VlWQmgVINrDHA';
 const bot = new TelegramBot(token, { polling: true });
 const HYPE = ["BTC", "ETH", "XRP", "XLM", "ADA", "DOGE", "DOT", "NEO", "CEL",
@@ -35,7 +35,22 @@ bot.onText(/\/listRecent/, async function (msg, match) {
 bot.onText(/\/addToFavourite (.+)/, async function (msg, match) {
     const chatId = msg.chat.id;
     const symbol = match[1];
+    f.save_to_db(chatId, symbol);
     bot.sendMessage(chatId, `Added ${symbol} to favourites!`);
+});
+bot.onText(/\/deleteFavourite (.+)/, async function (msg, match) {
+    const chatId = msg.chat.id;
+    const symbol = match[1];
+    f.delete_from_db(chatId, symbol);
+    bot.sendMessage(chatId, `Deleted ${symbol} from favourites!`);
+});
+bot.onText(/\/listFavourite/, async function (msg, match) {
+    const chatId = msg.chat.id;
+    let response = await f.get_from_db(chatId);
+    let linkString = response.join('+');
+    let data = await get_current_price(linkString);
+    let output = data.map(el => `/${el.symbol}     $${el.price}`).join('\n');
+    bot.sendMessage(chatId, output);
 });
 bot.onText(/\/(.+)/, async function (msg, match) {
     const chatId = msg.chat.id;
