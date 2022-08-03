@@ -77,6 +77,6 @@ const get_info = ({ symbol: coinSymbols, market: market, startDate: startDate, e
 // lulw()
 module.exports = {
     get_info: get_info,
-    handleDisconnect: handleDisconnect,
+    // handleDisconnect: handleDisconnect,
     db_config: db_config
 };
