@@ -32,7 +32,7 @@ function handleDisconnect() {
     db.on('error', function(err) {
         db.close()
         if(err.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.log('ClearDB closed the connection but its all good now, nvm')
+            console.log('ClearDB closed the connection but we created new, nvm')
             handleDisconnect();                         // lost due to either server restart, or a
         } else {                                      // connnection idle timeout (the wait_timeout
             throw err;                                  // server variable configures this)
@@ -65,16 +65,17 @@ function dummy_ping(){
         method: 'get',
         url: '/get',
         baseURL: 'https://crypto-api-lambda.herokuapp.com',
+        // baseURL: 'http://localhost:3000',
         params: {symbol: 'kekWkekW'}
     })
     console.log(`Erzhan vstavai`)
 }
 
-cron.schedule('*/2 * * * *', function() {
+cron.schedule('* * * * *', function() {
     dummy_ping()
 });
 
-cron.schedule('0 */5 * * * *', function() {
+cron.schedule('*/5 * * * *', function() {
     save_to_db()
 });
 

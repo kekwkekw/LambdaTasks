@@ -70,12 +70,6 @@ async function extract_needed_3() {
         };
     });
 }
-// async function lulw(){
-//     let a = await extract_needed_3()
-//     console.log(a)
-// }
-//
-// lulw()
 async function symbols_and_names() {
     let response = await axios.get(`https://api.kucoin.com/api/v1/currencies`);
     return response.data.data.map((el) => {
@@ -123,6 +117,12 @@ async function extract_all() {
     let values = await Promise.all([coinmarketappInfo, coinbaseInfo, coinstatsInfo, kucoinInfo, coinpaprikaInfo]);
     return values.flat(1);
 }
+// async function lulw(){
+//     let a = await extract_all()
+//     console.log(a)
+// }
+//
+// lulw()
 module.exports = {
     extract_all: extract_all
 };
