@@ -6,6 +6,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 app.get('/get', async (req, res) => {
     let params = req.query;
+    console.log(params);
     let exists = await get_info(params);
     if (!exists) {
         res.status(400).json({ error: "There is no such info sry lmao" });

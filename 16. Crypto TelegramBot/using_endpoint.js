@@ -45,22 +45,19 @@ async function get_info(symbol, minsAgoArray = [0, 30, 60, 60 * 3, 60 * 6, 12 * 
 }
 async function get_current_price(symbol) {
     let response = await axios.get(`https://crypto-api-lambda.herokuapp.com/get?symbol=${symbol}`);
-    return response.price;
+    return response.data[0].price;
 }
 async function get_current_prices(list) {
     let prices = [];
     for (const el of list) {
-        console.log(el);
-        let price = await get_current_price(el);
+        let price = get_current_price(el);
         prices.push(price);
-        console.log(prices);
     }
     await Promise.all(prices);
-    console.log(prices);
     return prices;
 }
 async function lulw() {
-    let a = await get_current_prices(['ETH', 'BTC', 'USDT']);
+    let a = await get_current_prices(['ETH', 'BTC', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT']);
     console.log(a);
 }
 lulw();

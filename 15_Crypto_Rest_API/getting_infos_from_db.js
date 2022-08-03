@@ -31,7 +31,7 @@ function handleDisconnect() {
     });
 }
 handleDisconnect();
-const get_info = ({ symbol: coinSymbol, market: market, startDate: startDate, endDate: endDate }) => new Promise(async (resolve, reject) => {
+const get_info = ({ symbol: coinSymbols, market: market, startDate: startDate, endDate: endDate }) => new Promise(async (resolve, reject) => {
     let marketQuery;
     let dateQuery;
     let query;
@@ -48,13 +48,14 @@ const get_info = ({ symbol: coinSymbol, market: market, startDate: startDate, en
         //select only freshly updated info
         dateQuery = `SELECT * FROM (${marketQuery}) AS T GROUP BY symbol, updated_at`;
     }
-    if (coinSymbol) {
+    if (coinSymbols) {
+        let inSymbols = coinSymbols.split(' ').map(el => `'${el}'`).join(',');
         if (market) {
             // language=SQL format=false
-            query = `SELECT * FROM ${dateQuery} AS T WHERE symbol = '${coinSymbol}' ORDER BY updated_at DESC LIMIT 1`;
+            query = `SELECT * FROM ${dateQuery} AS T WHERE symbol IN ('${inSymbols}') ORDER BY updated_at DESC LIMIT ${coinSymbols.split(' ').length}`;
         }
         else {
-            query = `SELECT name, symbol, updated_at, AVG(price) AS price FROM (${dateQuery}) AS T WHERE symbol = '${coinSymbol}' GROUP BY name, symbol, updated_at ORDER BY updated_at DESC LIMIT 1`;
+            query = `SELECT name, symbol, updated_at, AVG(price) AS price FROM (${dateQuery}) AS T WHERE symbol IN (${inSymbols}) GROUP BY name, symbol, updated_at ORDER BY updated_at DESC LIMIT ${coinSymbols.split(' ').length}`;
         }
         db.query(query, function (err, result, fields) {
             if (err)
