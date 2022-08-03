@@ -4,8 +4,12 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios').default;
 const mysql = require('mysql2')
 const get_info = require('./using_endpoint').get_info
+const get_current_price = require('./using_endpoint').get_current_price
 const token = '5443913471:AAFPvYdrMFn5VZcmI9bFi4VlWQmgVINrDHA';
 const bot = new TelegramBot(token, {polling: true});
+
+const HYPE = ["BTC", "ETH", "XRP", "XLM", "ADA", "DOGE", "DOT", "NEO", "CEL",
+    "NANO", "USDT", "DASH", "TRON", "ZEC", "NEM", "BNB", "BSV", "EOS", "VET", "DAI"]
 
 bot.onText(/\/start/, function (msg, match) {
     const chatId = msg.chat.id
@@ -24,19 +28,29 @@ bot.onText(/\/help/, function (msg, match) {
         '/listFavourite - returns the actual price of your favourites')
 });
 
+bot.onText(/\/listRecent/, async function (msg, match) {
+    const chatId = msg.chat.id
+    let prices = {}
+    for (const el of HYPE) {
+        let price = await get_current_price(el)
+        console.log(price)
+        prices[el] = price
+    }
+    await Promise.all(Object.values(prices))
+    console.log(prices)
+    let needed_info = await HYPE.map(el=>`/${el} ${get_current_price(el)}`)
+    console.log(needed_info)
+});
+
 bot.onText(/\/(.+)/, async function (msg, match) {
     const chatId = msg.chat.id
     if (match[1] === match[1].toUpperCase()) {
         bot.sendMessage(chatId, 'checking...')
-        try {
-            let result = await get_info(match[1])
-            // .sort((a, b)=>a.minsAgo-b.minsAgo)
-            let outputArray = result.price_history.map(el=>`${el.minsAgo/60} hours ago it costed $${el.price}`)
-            let output = [match[1], ...outputArray].join('\n')
-            bot.sendMessage(chatId, output)
-        } catch (UnhandledPromiseRejection) {
-            bot.sendMessage(chatId, 'something went wrong, sry. Please try again later')
-        }
+        let result = await get_info(match[1])
+        // .sort((a, b)=>a.minsAgo-b.minsAgo)
+        let outputArray = result.price_history.filter(el=>el).map(el=>`${el.minsAgo/60} hours ago -> $${el.price}`)
+        let output = [match[1], ...outputArray].join('\n')
+        bot.sendMessage(chatId, output)
     }
 });
 

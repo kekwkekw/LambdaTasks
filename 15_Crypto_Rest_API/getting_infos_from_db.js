@@ -43,29 +43,29 @@ const get_info = ({ symbol: coinSymbol, market: market, startDate: startDate, en
     }
     else {
         //select only freshly updated info
-        dateQuery = `SELECT * FROM (${marketQuery}) AS T GROUP BY updated_at ORDER BY updated_at DESC LIMIT 1`;
+        dateQuery = `SELECT * FROM (${marketQuery}) AS T GROUP BY symbol, updated_at`;
     }
     if (coinSymbol) {
         if (market) {
             // language=SQL format=false
-            query = `SELECT * FROM ${dateQuery} AS T WHERE symbol = '${coinSymbol}'`;
+            query = `SELECT * FROM ${dateQuery} AS T WHERE symbol = '${coinSymbol}' ORDER BY updated_at DESC LIMIT 1`;
         }
         else {
-            query = `SELECT name, symbol, updated_at, AVG(price) AS price FROM (${dateQuery}) AS T WHERE symbol = '${coinSymbol}' GROUP BY name, symbol, updated_at`;
+            query = `SELECT name, symbol, updated_at, AVG(price) AS price FROM (${dateQuery}) AS T WHERE symbol = '${coinSymbol}' GROUP BY name, symbol, updated_at ORDER BY updated_at DESC LIMIT 1`;
         }
         db.query(query, function (err, result, fields) {
+            console.log(query);
             if (err)
                 throw err;
             resolve(result);
         });
     }
 });
-// async function lulw() {
-//     let result = await get_info({symbol: 'BTC'})
-//     console.log(result)
-// }
-//
-// lulw()
+async function lulw() {
+    let result = await get_info({ symbol: 'USDT' });
+    console.log(result);
+}
+lulw();
 module.exports = {
     get_info: get_info,
     handleDisconnect: handleDisconnect,

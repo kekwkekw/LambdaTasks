@@ -57,13 +57,20 @@ async function get_info(symbol: string, minsAgoArray: number[] = [0, 30, 60, 60 
     return {symbol: symbol, price_history: price_history}
 }
 
+async function get_current_price(symbol: string): Promise<number> {
+    let response = await axios.get(`https://crypto-api-lambda.herokuapp.com/get?symbol=${symbol}`)
+    console.log(response)
+    return response.data.price
+}
+
 async function lulw() {
-    let a = await get_info('ETH')
+    let a = await get_current_price('ETH')
     console.log(a)
 }
 
 lulw()
 
-// module.exports = {
-//     get_info: get_info
-// }
+module.exports = {
+    get_info: get_info,
+    get_current_price: get_current_price
+}

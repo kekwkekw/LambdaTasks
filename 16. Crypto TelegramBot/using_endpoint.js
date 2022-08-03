@@ -43,12 +43,18 @@ async function get_info(symbol, minsAgoArray = [0, 30, 60, 60 * 3, 60 * 6, 12 * 
     let price_history = minsAgoArray.map(minsAgo => extract_needed_by_minsAgo(last24HourPrices.data, minsAgo));
     return { symbol: symbol, price_history: price_history };
 }
+async function get_current_price(symbol) {
+    let response = await axios.get(`https://crypto-api-lambda.herokuapp.com/get?symbol=${symbol}`);
+    console.log(response);
+    return response.data.price;
+}
 async function lulw() {
-    let a = await get_info('ETH');
+    let a = await get_current_price('ETH');
     console.log(a);
 }
 lulw();
-// module.exports = {
-//     get_info: get_info
-// }
+module.exports = {
+    get_info: get_info,
+    get_current_price: get_current_price
+};
 //# sourceMappingURL=using_endpoint.js.map
