@@ -58,7 +58,7 @@ bot.onText(/\/(.+)/, async function (msg, match) {
         bot.sendMessage(chatId, 'checking...');
         let result = await get_info(match[1]);
         // .sort((a, b)=>a.minsAgo-b.minsAgo)
-        let outputArray = result.price_history.filter(el => el).map(el => `${el.minsAgo / 60} hours ago -> $${el.price}`);
+        let outputArray = result.price_history.filter(el => el).map(el => `${el.minsAgo > 60 ? (el.minsAgo / 60).toString() + ' hours' : el.minsAgo.toString() + ' minutes'} ago -> $${el.price}`);
         let output = [match[1], ...outputArray].join('\n');
         bot.sendMessage(chatId, output);
     }
