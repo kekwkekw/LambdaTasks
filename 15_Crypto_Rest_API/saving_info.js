@@ -4,7 +4,7 @@ const cron = require('node-cron');
 const axios = require('axios');
 const gi = require('./getting_infos_from_apis.js');
 const db_config = {
-    host: 'uepp3ddzwtnggom.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+    host: 'nuepp3ddzwtnggom.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
     user: 'ontcdgo1icczlmj0',
     password: 'hyaa0f3mdzlstgwm',
     database: 'ithyr8nzywaqgcih',
