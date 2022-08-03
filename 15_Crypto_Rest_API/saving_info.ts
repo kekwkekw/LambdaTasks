@@ -4,10 +4,10 @@ const axios = require('axios')
 const gi = require('./getting_infos_from_apis.js')
 
 const db_config = {
-    host: 'eu-cdbr-west-03.cleardb.net',
-    user: 'bf99fa3b5ae5f8',
-    password: 'aab2140d',
-    database: 'heroku_54686e9601730cd',
+    host: 'uepp3ddzwtnggom.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+    user: 'ontcdgo1icczlmj0',
+    password: 'hyaa0f3mdzlstgwm',
+    database: 'ithyr8nzywaqgcih',
     ssl : {
         rejectUnauthorized: false
     }
