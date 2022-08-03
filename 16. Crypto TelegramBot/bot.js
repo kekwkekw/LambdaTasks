@@ -24,10 +24,13 @@ bot.onText(/\/help/, function (msg, match) {
 bot.onText(/\/(.+)/, async function (msg, match) {
     const chatId = msg.chat.id;
     if (match[1] === match[1].toUpperCase()) {
+        bot.sendMessage(chatId, 'checking...');
         try {
             let result = await get_info(match[1]);
             // .sort((a, b)=>a.minsAgo-b.minsAgo)
-            let resultArray = result.price_history.map(el => `${el.minsAgo / 60}`);
+            let outputArray = result.price_history.map(el => `${el.minsAgo / 60} hours ago it costed $${el.price}`);
+            let output = [match[1], ...outputArray].join('\n');
+            bot.sendMessage(chatId, output);
         }
         catch (UnhandledPromiseRejection) {
             bot.sendMessage(chatId, 'something went wrong, sry. Please try again later');

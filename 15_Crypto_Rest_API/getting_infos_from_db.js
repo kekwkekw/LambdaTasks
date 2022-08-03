@@ -7,6 +7,11 @@ const db_config = {
     database: 'heroku_9310974291683b6'
 };
 let db;
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
 function handleDisconnect() {
     db = mysql.createConnection(db_config); // Recreate the connection, since
     // the old one cannot be reused.
@@ -18,6 +23,7 @@ function handleDisconnect() {
     }); // process asynchronous requests in the meantime.
     // If you're also serving http, display a 503 error.
     db.on('error', function (err) {
+        db.close();
         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
             console.log('ClearDB closed the connection but its all good now, nvm');
             handleDisconnect(); // lost due to either server restart, or a
@@ -54,12 +60,18 @@ const get_info = ({ symbol: coinSymbol, market: market, startDate: startDate, en
         else {
             query = `SELECT name, symbol, updated_at, AVG(price) AS price FROM (${dateQuery}) AS T WHERE symbol = '${coinSymbol}' GROUP BY name, symbol, updated_at`;
         }
-        db.query(query, function (err, result, fields) {
-            if (err)
-                throw err;
+        try {
+            db.query(query, function (err, result, fields) {
+                resolve(result);
+            });
+        }
+        catch (ERR_STREAM_WRITE_AFTER_END) {
+            await sleep(1000);
+            let result = await get_info({ symbol: coinSymbol, market: market, startDate: startDate, endDate: endDate });
             resolve(result);
-        });
+        }
     }
+    db.close();
 });
 // async function lulw() {
 //     let result = await get_info({symbol: 'BTC', startDate: '2022-07-30 16:45:00', endDate: '2022-08-30 16:45:00'})

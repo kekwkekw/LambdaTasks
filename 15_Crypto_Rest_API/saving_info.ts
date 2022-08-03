@@ -10,6 +10,12 @@ const db_config = {
     database: 'heroku_9310974291683b6'
 }
 
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
 let db
 
 function handleDisconnect() {
@@ -24,6 +30,7 @@ function handleDisconnect() {
     });                                     // process asynchronous requests in the meantime.
                                             // If you're also serving http, display a 503 error.
     db.on('error', function(err) {
+        db.close()
         if(err.code === 'PROTOCOL_CONNECTION_LOST') {
             console.log('ClearDB closed the connection but its all good now, nvm')
             handleDisconnect();                         // lost due to either server restart, or a
@@ -39,25 +46,32 @@ async function save_to_db(): Promise<void>{
     let all_infos = await gi.extract_all()
     let sql = 'INSERT INTO price (name, symbol, price, api_used, updated_at) VALUES ?'
     let values = [all_infos.map(el=>[el.name, el.symbol, el.price, el.api_used, new Date(el.updated_at)])]
-    db.query(sql, values, function (err, result) {
-        if (err){}
-        let end = new Date().getTime();
-        let time = end - start;
-        console.log(`Saved! Execution time: ${time/1000}s`);
-    });
+    try{
+        db.query(sql, values, function (err, result) {
+            if (err){}
+            let end = new Date().getTime();
+            let time = end - start;
+            console.log(`Saved! Execution time: ${time/1000}s`);
+        });
+    }
+    catch (ERR_STREAM_WRITE_AFTER_END){
+        await sleep(1000)
+        save_to_db()
+    }
 }
 
-async function dummy_ping(){
-    let dummy_ping = await axios({
+function dummy_ping(){
+    let dummy_ping = axios({
         method: 'get',
         url: '/get',
-        baseURL: 'https://crypto-api-lambda.herokuapp.com',
+        // baseURL: 'https://crypto-api-lambda.herokuapp.com',
+        baseURL: 'http://localhost:3000',
         params: {symbol: 'kekWkekW'}
     })
     console.log(`Erzhan vstavai`)
 }
 
-cron.schedule('* */2 * * * *', function() {
+cron.schedule('*/2 * * * *', function() {
     dummy_ping()
 });
 
