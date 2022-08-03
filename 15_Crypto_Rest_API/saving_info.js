@@ -4,10 +4,10 @@ const cron = require('node-cron');
 const axios = require('axios');
 const gi = require('./getting_infos_from_apis.js');
 const db_config = {
-    host: 'us-cdbr-east-06.cleardb.net',
-    user: 'bd5e6b22462a14',
-    password: '2a6ef195',
-    database: 'heroku_9310974291683b6',
+    host: 'eu-cdbr-west-03.cleardb.net',
+    user: 'bf99fa3b5ae5f8',
+    password: 'aab2140d',
+    database: 'heroku_54686e9601730cd',
     ssl: {
         rejectUnauthorized: false
     }

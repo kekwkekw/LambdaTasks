@@ -30,15 +30,17 @@ bot.onText(/\/help/, function (msg, match) {
 
 bot.onText(/\/listRecent/, async function (msg, match) {
     const chatId = msg.chat.id
-    let prices = []
-    HYPE.forEach(el=> {
-        let price = get_current_price(el)
-        prices.push(price)
-    })
-    await Promise.all(prices)
-    console.log(prices)
-    let needed_info = await HYPE.map(el=>`/${el} ${get_current_price(el)}`)
-    console.log(needed_info)
+    bot.sendMessage(chatId, 'checking...')
+    let linkString = HYPE.join('+')
+    let data = await get_current_price(linkString)
+    let output = data.map(el=>`/${el.symbol}     $${el.price}`).join('\n')
+    bot.sendMessage(chatId, output)
+});
+
+bot.onText(/\/addToFavourite (.+)/, async function (msg, match) {
+    const chatId = msg.chat.id
+    const symbol = match[1]
+    bot.sendMessage(chatId, `Added ${symbol} to favourites!`)
 });
 
 bot.onText(/\/(.+)/, async function (msg, match) {
