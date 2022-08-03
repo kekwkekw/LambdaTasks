@@ -5,7 +5,9 @@ const db_config = {
     user: 'bd5e6b22462a14',
     password: '2a6ef195',
     database: 'heroku_9310974291683b6',
-    ssl: true
+    ssl: {
+        rejectUnauthorized: false
+    }
 };
 let db;
 function handleDisconnect() {
