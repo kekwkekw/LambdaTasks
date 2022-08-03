@@ -61,7 +61,8 @@ const get_info = ({
             // language=SQL format=false
             query = `SELECT * FROM ${dateQuery} AS T WHERE symbol IN ('${inSymbols}') ORDER BY updated_at DESC LIMIT ${coinSymbols.split(' ').length}`;
         } else {
-            query = `SELECT name, symbol, updated_at, AVG(price) AS price FROM (${dateQuery}) AS T WHERE symbol IN (${inSymbols}) GROUP BY name, symbol, updated_at ORDER BY updated_at DESC LIMIT ${coinSymbols.split(' ').length}`;
+            let limit = startDate && endDate ? '': `LIMIT ${coinSymbols.split(' ').length}`
+            query = `SELECT name, symbol, updated_at, AVG(price) AS price FROM (${dateQuery}) AS T WHERE symbol IN (${inSymbols}) GROUP BY name, symbol, updated_at ORDER BY updated_at DESC ${limit}`;
         }
         db.query(query, function (err, result, fields) {
             if (err)

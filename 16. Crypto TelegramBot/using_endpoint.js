@@ -21,9 +21,7 @@ function extract_needed_by_minsAgo(data, minsAgo) {
         currentMinusMinsAgo.setSeconds(new Date().getSeconds() - 30);
         let currentMinusMinsAgoAnd5mins = new Date(currentMinusMinsAgo);
         currentMinusMinsAgoAnd5mins.setMinutes(currentMinusMinsAgoAnd5mins.getMinutes() - 5);
-        console.log(currentMinusMinsAgo, currentMinusMinsAgoAnd5mins);
         if (updated_at > currentMinusMinsAgoAnd5mins && updated_at < currentMinusMinsAgo) {
-            console.log(updated_at);
             return { minsAgo: minsAgo, price: el.price };
         }
     }
@@ -40,24 +38,16 @@ async function get_info(symbol, minsAgoArray = [0, 30, 60, 60 * 3, 60 * 6, 12 * 
         baseURL: 'https://crypto-api-lambda.herokuapp.com',
         params: { symbol: symbol, startDate: dayAgoFormatted, endDate: currentFormatted }
     });
+    console.log(last24HourPrices.data);
     let price_history = minsAgoArray.map(minsAgo => extract_needed_by_minsAgo(last24HourPrices.data, minsAgo));
     return { symbol: symbol, price_history: price_history };
 }
 async function get_current_price(symbol) {
     let response = await axios.get(`https://crypto-api-lambda.herokuapp.com/get?symbol=${symbol}`);
-    return response.data[0].price;
-}
-async function get_current_prices(list) {
-    let prices = [];
-    for (const el of list) {
-        let price = get_current_price(el);
-        prices.push(price);
-    }
-    await Promise.all(prices);
-    return prices;
+    return response.data;
 }
 async function lulw() {
-    let a = await get_current_prices(['ETH', 'BTC', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT', 'USDT']);
+    let a = await get_current_price('BTC+ETH');
     console.log(a);
 }
 lulw();
