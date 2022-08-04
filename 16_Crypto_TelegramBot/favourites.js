@@ -8,31 +8,6 @@ const db_config = {
         rejectUnauthorized: false
     }
 };
-// let db
-//
-// function handleDisconnect() {
-//     db = mysql.createConnection(db_config); // Recreate the connection, since
-//     // the old one cannot be reused.
-//
-//     db.connect(function (err) {              // The server is either down
-//         if (err) {                                     // or restarting (takes a while sometimes).
-//             console.log('error when connecting to db:', err);
-//             setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-//         }                                     // to avoid a hot loop, and to allow our node script to
-//     });                                     // process asynchronous requests in the meantime.
-//                                             // If you're also serving http, display a 503 error.
-//     db.on('error', function (err) {
-//         db.close()
-//         if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-//             console.log('ClearDB closed the connection but we created new, nvm')
-//             handleDisconnect();                         // lost due to either server restart, or a
-//         } else {                                      // connnection idle timeout (the wait_timeout
-//             throw err;                                  // server variable configures this)
-//         }
-//     });
-// }
-//
-// handleDisconnect()
 function save_to_db(id, symbol) {
     let db = mysql.createConnection(db_config);
     let sql = 'INSERT INTO favourites (id, symbol) VALUES ?';
@@ -45,16 +20,25 @@ function save_to_db(id, symbol) {
     });
 }
 const get_from_db = (id) => new Promise(async (resolve, reject) => {
-    let sql = `SELECT symbol FROM favourites WHERE id=${id}`;
+    let db = mysql.createConnection(db_config);
+    let sql = `SELECT symbol
+                   FROM favourites
+                   WHERE id = ${id}`;
     db.query(sql, (err, result) => {
+        db.end();
         resolve(result.map(el => el.symbol));
     });
 });
 function delete_from_db(id, symbol) {
-    let sql = `DELETE FROM favourites WHERE id=${id} AND symbol='${symbol}'`;
+    let db = mysql.createConnection(db_config);
+    let sql = `DELETE
+               FROM favourites
+               WHERE id = ${id}
+                 AND symbol = '${symbol}'`;
     db.query(sql, (err, result) => {
         if (err) {
             console.log(err);
+            db.end();
         }
     });
 }
