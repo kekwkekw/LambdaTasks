@@ -1,6 +1,5 @@
 "use strict";
 const mysql = require('mysql2');
-const db = mysql.createConnection();
 const db_config = {
     host: 'eu-cdbr-west-03.cleardb.net',
     user: 'bf99fa3b5ae5f8',
@@ -11,6 +10,7 @@ const db_config = {
     }
 };
 async function create_database() {
+    let db = mysql.createConnection(db_config);
     db.query('CREATE TABLE IF NOT EXISTS price(name VARCHAR(255), symbol VARCHAR(255), price FLOAT, api_used VARCHAR(255), updated_at TIMESTAMP)');
     db.end();
     console.log("Successfully created!");

@@ -29,22 +29,20 @@ async function save_to_db(): Promise<void>{
     });
 }
 
-// function dummy_ping(){
-//     let dummy_ping = axios({
-//         method: 'get',
-//         url: '/get',
-//         baseURL: 'https://crypto-api-lambda.herokuapp.com',
-//         // baseURL: 'http://localhost:3000',
-//         params: {symbol: 'Erzhan_vstavai'}
-//     })
-// }
-//
-// cron.schedule('* * * * *', function() {
-//     dummy_ping()
-// });
+function dummy_ping(){
+    let dummy_ping = axios({
+        method: 'get',
+        url: '/get',
+        baseURL: 'https://crypto-api-lambda.herokuapp.com',
+        // baseURL: 'http://localhost:3000',
+        params: {symbol: 'Erzhan_vstavai'}
+    })
+}
+
+cron.schedule('* * * * *', function() {
+    dummy_ping()
+});
 
 cron.schedule('*/5 * * * *', function() {
     save_to_db()
 });
-
-// handleDisconnect()
