@@ -8,7 +8,7 @@ const db = mysql.createConnection({
         rejectUnauthorized: false
     }
 });
-async function create_database() {
+function create_database() {
     db.query('CREATE TABLE IF NOT EXISTS favourites(id INT, symbol VARCHAR(255))', (err) => console.log(err));
     db.end();
     console.log("Successfully created!");

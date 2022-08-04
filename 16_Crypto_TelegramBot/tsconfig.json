@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "esnext",
     "sourceMap": true,
-      "skipLibCheck": true
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules"

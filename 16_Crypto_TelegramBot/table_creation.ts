@@ -10,7 +10,7 @@ const db = mysql.createConnection({
     }
 });
 
-async function create_database(){
+function create_database(): void{
     db.query('CREATE TABLE IF NOT EXISTS favourites(id INT, symbol VARCHAR(255))', (err)=>console.log(err))
     db.end()
     console.log("Successfully created!")

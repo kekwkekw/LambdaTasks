@@ -11,7 +11,7 @@ const db_config = {
     }
 }
 
-function save_to_db(id, symbol): Promise<void> {
+function save_to_db(id, symbol): void {
     let db = mysql.createConnection(db_config);
     let sql = 'INSERT INTO favourites (id, symbol) VALUES ?'
     let values = [id, symbol]
@@ -35,7 +35,7 @@ const get_from_db =
         });
     })
 
-function delete_from_db(id, symbol) {
+function delete_from_db(id, symbol): void{
     let db = mysql.createConnection(db_config);
     let sql = `DELETE
                FROM favourites
