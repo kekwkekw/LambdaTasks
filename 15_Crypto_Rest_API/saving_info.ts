@@ -28,7 +28,6 @@ async function save_to_db(): Promise<void>{
         db.end()
     });
 }
-save_to_db()
 
 // function dummy_ping(){
 //     let dummy_ping = axios({
