@@ -1,4 +1,3 @@
-"use strict";
 const axios = require('axios');
 const KEY1 = '8b1e4a04-35b2-43a0-8945-92b2291ba8b1';
 function round_date(date) {
@@ -14,6 +13,7 @@ function reformat_date(date) {
         ("00" + date.getMinutes()).slice(-2) + ":" +
         ("00" + date.getSeconds()).slice(-2);
 }
+let symbolsAndNames;
 async function extract_needed_1() {
     let response = await axios({
         method: 'get',
@@ -36,6 +36,28 @@ async function extract_needed_1() {
             price: el.quote.USD.price,
             api_used: "coinmarketcap",
             updated_at: reformat_date(round_date(new Date()))
+        };
+    });
+}
+async function symbols_and_names() {
+    let response = await axios({
+        method: 'get',
+        url: '/v1/cryptocurrency/listings/latest',
+        baseURL: 'https://pro-api.coinmarketcap.com',
+        headers: {
+            'X-CMC_PRO_API_KEY': KEY1,
+            'Accepts': 'application/json'
+        },
+        parameters: {
+            'start': '1',
+            'limit': '5000',
+            'convert': 'USD'
+        }
+    });
+    symbolsAndNames = response.data.data.map((el) => {
+        return {
+            name: el.name,
+            symbol: el.symbol
         };
     });
 }
@@ -70,18 +92,16 @@ async function extract_needed_3() {
         };
     });
 }
-async function symbols_and_names() {
-    let response = await axios.get(`https://api.kucoin.com/api/v1/currencies`);
-    return response.data.data.map((el) => {
-        return { symbol: el.currency, name: el.fullName };
-    });
-}
+// async function lulw(){
+//     let a = await symbols_and_names()
+//     console.log(a)
+// }
+// lulw()
 async function prices_4() {
     let response = await axios.get(`https://api.kucoin.com/api/v1/prices`);
     return response.data.data;
 }
 async function extract_needed_4() {
-    let symbolsAndNames = await symbols_and_names();
     let prices = await prices_4();
     return symbolsAndNames.map((el) => {
         if (prices[el.symbol]) {
@@ -98,17 +118,19 @@ async function extract_needed_4() {
 async function extract_needed_5() {
     let response = await axios.get(`https://api.coinpaprika.com/v1/tickers`);
     return response.data.map((el) => {
-        return {
-            name: el.name,
-            symbol: el.symbol,
-            price: el.quotes.USD.price,
-            api_used: "coinpaprika",
-            updated_at: reformat_date(round_date(new Date()))
-        };
-    });
+        if (symbolsAndNames.map(i => i.symbol).includes(el.symbol)) {
+            return {
+                name: el.name,
+                symbol: el.symbol,
+                price: el.quotes.USD.price,
+                api_used: "coinpaprika",
+                updated_at: reformat_date(round_date(new Date()))
+            };
+        }
+    }).filter(el => el);
 }
 async function extract_all() {
-    let symbolsAndNames = await symbols_and_names();
+    await symbols_and_names();
     let coinmarketappInfo = extract_needed_1();
     let coinbaseInfo = extract_needed_2(symbolsAndNames);
     let coinstatsInfo = extract_needed_3();
