@@ -4,10 +4,10 @@ const axios = require('axios')
 const gi = require('./getting_infos_from_apis.js')
 
 const db_config = {
-    host: 'nuepp3ddzwtnggom.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
-    user: 'ontcdgo1icczlmj0',
-    password: 'hyaa0f3mdzlstgwm',
-    database: 'ithyr8nzywaqgcih',
+    host: 'eu-cdbr-west-03.cleardb.net',
+    user: 'bf99fa3b5ae5f8',
+    password: 'aab2140d',
+    database: 'heroku_54686e9601730cd',
     ssl : {
         rejectUnauthorized: false
     }
@@ -20,7 +20,8 @@ async function save_to_db(): Promise<void>{
     let sql = 'INSERT INTO price (name, symbol, price, api_used, updated_at) VALUES ?'
     let values = [all_infos.map(el=>[el.name, el.symbol, el.price, el.api_used, new Date(el.updated_at)])]
     db.query(sql, values, function (err, result) {
-        if (err){}
+        if (err){
+            console.log(err)}
         let end = new Date().getTime();
         let time = end - start;
         console.log(`Saved! Execution time: ${time/1000}s`);
@@ -45,5 +46,3 @@ cron.schedule('* * * * *', function() {
 cron.schedule('*/5 * * * *', function() {
     save_to_db()
 });
-
-// handleDisconnect()
