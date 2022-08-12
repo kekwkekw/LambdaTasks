@@ -8,7 +8,7 @@ market: - optional
     If there are none, calculate the average price among all 5.
 startDate and endDate: -optional
     period, in which you wish to know the prices of coins.
-    Format: string 'YYYY-MM-DD HH:MM:SS' in the UTC-0, for example '2022-07-30 16:45:00'. Note that in links '%' symbol used as space.
+    Format: string 'YYYY-MM-DD HH:MM:SS' in the UTC-0, for example '2022-07-30 16:45:00'. Note that in links '%20' symbol used as space.
     If there are none, returns the most 'fresh' result
 
 Example: https://crypto-api-lambda.herokuapp.com/get?symbol=BTC+USDT&startDate=2022-07-30%2016:35:00&endDate=2022-08-30%2016:45:00
