@@ -12,7 +12,7 @@ const db = new Database(dbFilePath);
 const createTables = () => {
     console.log('Creating tables...');
     console.log('Init query:', initQuery);
-    db.exec(initQuery, (err) => {
+    db.exec(initQuery, (err: Error | null) => {
         if (err) {
             console.error('Error creating tables:', err);
         } else {
@@ -26,7 +26,7 @@ const insertData = (tableName: string, data: any) => {
     const values = Object.values(data);
     const insertQuery = `INSERT INTO ${tableName} (${keys.join(', ')}) VALUES (${keys.map(() => '?').join(', ')})`;
 
-    db.run(insertQuery, values, (err) => {
+    db.run(insertQuery, values, (err: Error | null) => {
         if (err) {
             console.error('Error inserting data:', err)
             console.log('Data:', data);
@@ -35,7 +35,7 @@ const insertData = (tableName: string, data: any) => {
 };
 
 const clearData = (tableName: string) => {
-    db.run(`DELETE FROM ${tableName}`, (err) => {
+    db.run(`DELETE FROM ${tableName}`, (err: Error | null) => {
         if (err) {
             console.error('Error clearing data:', err);
         } else {
@@ -60,7 +60,7 @@ const readData = (tableName: string, limit: number = Infinity, offset: number = 
             query += ` OFFSET ${offset}`;
         }
 
-        db.all(query, (err, rows) => {
+        db.all(query, (err : Error | null, rows : any[] = []) => {
             if (err) {
                 console.error('Error reading data:', err);
                 reject(err);
@@ -79,7 +79,7 @@ const insertDataFromFile = (tableName: string, fileName: string) => {
     const data: any[] = [];
     fs.createReadStream(filePath)
         .pipe(csvParser({ separator: ';' }))
-        .on('data', (row) => {
+        .on('data', (row: any[] = []) => {
             data.push(row);
         })
         .on('end', () => {
