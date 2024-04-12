@@ -4,7 +4,7 @@ import csvParser from 'csv-parser';
 import { Database } from 'sqlite3';
 import { initQuery } from './queries';
 
-const rawDataFolder = './Northwind/raw_data';
+const rawDataFolder = './raw_data';
 const projectFolder = __dirname;
 const dbFilePath = path.join(projectFolder, 'northwind.db');
 const db = new Database(dbFilePath);
